@@ -7,7 +7,7 @@ Package license: Apache-2.0
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/tango-feedstock/blob/master/LICENSE.txt)
 
-Summary: A Python library for choreographing your machine learning research.
+Summary: AI2 Tango replaces messy directories and spreadsheets full of file versions by organizing experiments into discrete steps that can be cached and reused throughout the lifetime of a research project.
 
 Development: https://github.com/allenai/tango
 
