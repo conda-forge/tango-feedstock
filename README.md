@@ -7,11 +7,23 @@ Package license: Apache-2.0
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/tango-feedstock/blob/master/LICENSE.txt)
 
-Summary: A Python library for choreographing your machine learning research.
+Summary: AI2 Tango replaces messy directories and spreadsheets full of file versions by organizing experiments into discrete steps that can be cached and reused throughout the lifetime of a research project.
 
 Development: https://github.com/allenai/tango
 
 Documentation: https://ai2-tango.readthedocs.io
+
+AI2 Tango is a platform that allows you to build machine learning experiments
+out of steps that can be reused and repeated. It eliminates duplicate work,
+stores past results, and keeps track of how they were obtained so you can
+quickly identify and trace back your best work. Experiments are flexible,
+so you can change direction, pursue another idea and incorporate feedback,
+without losing previous results. Write your own steps by wrapping common
+Python functions, or take advantage of the library of pre-built steps for
+training models, working with datasets, and running evaluations. It is
+integrated with popular tools like the Huggingface transformers library,
+PyTorch Lightning, and others.
+
 
 Current build status
 ====================
