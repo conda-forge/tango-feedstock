@@ -116,6 +116,7 @@ Current release info
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--datasets-green.svg)](https://anaconda.org/conda-forge/tango-datasets) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-datasets.svg)](https://anaconda.org/conda-forge/tango-datasets) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-datasets.svg)](https://anaconda.org/conda-forge/tango-datasets) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-datasets.svg)](https://anaconda.org/conda-forge/tango-datasets) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--pytorch_lightning-green.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-pytorch_lightning.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-pytorch_lightning.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-pytorch_lightning.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--torch-green.svg)](https://anaconda.org/conda-forge/tango-torch) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-torch.svg)](https://anaconda.org/conda-forge/tango-torch) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-torch.svg)](https://anaconda.org/conda-forge/tango-torch) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-torch.svg)](https://anaconda.org/conda-forge/tango-torch) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-tango--transformers-green.svg)](https://anaconda.org/conda-forge/tango-transformers) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-transformers.svg)](https://anaconda.org/conda-forge/tango-transformers) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-transformers.svg)](https://anaconda.org/conda-forge/tango-transformers) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-transformers.svg)](https://anaconda.org/conda-forge/tango-transformers) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--wandb-green.svg)](https://anaconda.org/conda-forge/tango-wandb) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-wandb.svg)](https://anaconda.org/conda-forge/tango-wandb) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-wandb.svg)](https://anaconda.org/conda-forge/tango-wandb) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-wandb.svg)](https://anaconda.org/conda-forge/tango-wandb) |
 
 Installing tango
@@ -128,10 +129,10 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `tango, tango-all, tango-datasets, tango-pytorch_lightning, tango-torch, tango-wandb` can be installed with:
+Once the `conda-forge` channel has been enabled, `tango, tango-all, tango-datasets, tango-pytorch_lightning, tango-torch, tango-transformers, tango-wandb` can be installed with:
 
 ```
-conda install tango tango-all tango-datasets tango-pytorch_lightning tango-torch tango-wandb
+conda install tango tango-all tango-datasets tango-pytorch_lightning tango-torch tango-transformers tango-wandb
 ```
 
 It is possible to list all of the versions of `tango` available on your platform with:
