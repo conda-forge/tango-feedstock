@@ -62,6 +62,7 @@ outputs:
     test:
       requires:
         - pytest
+        - flaky
         - git
       source_files:
         - test_fixtures/
@@ -111,6 +112,7 @@ outputs:
         - tango.integrations.datasets
       requires:
         - pytest
+        - flaky
         - git
       source_files:
         - test_fixtures/
@@ -137,6 +139,7 @@ outputs:
         - tango.integrations.pytorch_lightning
       requires:
         - pytest
+        - flaky
         - git
       source_files:
         - test_fixtures/
@@ -163,6 +166,7 @@ outputs:
         - tango.integrations.torch
       requires:
         - pytest
+        - flaky
         - git
       source_files:
         - test_fixtures/
@@ -186,6 +190,7 @@ outputs:
         - tango.integrations.transformers
       requires:
         - pytest
+        - flaky
         - git
       source_files:
         - test_fixtures/
