@@ -46,16 +46,18 @@ outputs:
       run:
         - python
         - base58
-        - cached_path >=0.3.1,<0.4.0
-        - click >=8.0,<9.0
+        - cached_path >=1.0,<1.1
+        - click >=7.0,<9.0
         - click-help-colors >=0.9.1,<0.10.0
         - dill
-        - filelock >=3.3,<3.5
+        - filelock >=3.4,<3.5
+        - glob2 >=0.7
         - jsonnet >=0.10.0  # [not win]
         - more-itertools >=8.0,<9.0
-        - overrides ==3.1
+        - petname >=2.6,<3.0
         - python-xxhash
         - pyyaml >=5.4.1,<6.1
+        - sqlitedict
         - tqdm >=4.62,<4.63
     test:
       requires:
@@ -82,6 +84,7 @@ outputs:
         - {{ pin_subpackage('tango-datasets', exact=True) }}
         - {{ pin_subpackage('tango-pytorch_lightning', exact=True) }}
         - {{ pin_subpackage('tango-torch', exact=True) }}
+        - {{ pin_subpackage('tango-transformers', exact=True) }}
         - {{ pin_subpackage('tango-wandb', exact=True) }}
     test:
       imports:
@@ -102,7 +105,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
-        - datasets >=1.12,<1.16
+        - datasets >=1.12,<2
     test:
       imports:
         - tango.integrations.datasets
@@ -125,7 +128,7 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - pytorch >=1.9.0,<1.11.0
-        - pytorch-lightning >=1.4.0,<1.5.0
+        - pytorch-lightning >=1.5.0,<1.6.0
         # until v1.11.0, pytorch has an undeclared dependency on setuptools,
         # see pytorch/pytorch#71280, and breaks with new versions
         - setuptools <59.5
@@ -166,6 +169,29 @@ outputs:
         - tests/
       commands:
         - pytest -v tests/integrations/torch
+
+  - name: tango-transformers
+    build:
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('tango', exact=True) }}
+        - sentencepiece >=0.1.96
+        - transformers >=4.12.3
+    test:
+      imports:
+        - tango.integrations.transformers
+      requires:
+        - pytest
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/transformers
 
   - name: tango-wandb
     build:
