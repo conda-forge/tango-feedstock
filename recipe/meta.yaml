@@ -124,6 +124,9 @@ outputs:
         - {{ pin_subpackage('tango', exact=True) }}
         - pytorch >=1.9.0,<1.11.0
         - pytorch-lightning >=1.4.0,<1.5.0
+        # until v1.11.0, pytorch has an undeclared dependency on setuptools,
+        # see pytorch/pytorch#71280, and breaks with new versions
+        - setuptools <60
     test:
       imports:
         - tango.integrations.pytorch_lightning
@@ -147,6 +150,9 @@ outputs:
         - {{ pin_subpackage('tango', exact=True) }}
         - numpy
         - pytorch >=1.9.0,<1.11.0
+        # until v1.11.0, pytorch has an undeclared dependency on setuptools,
+        # see pytorch/pytorch#71280, and breaks with new versions
+        - setuptools <60
     test:
       imports:
         - tango.integrations.torch
