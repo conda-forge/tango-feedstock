@@ -65,8 +65,10 @@ outputs:
         - flaky
         - git
       source_files:
-        - test_fixtures/
         - tests/
+        - test_fixtures/
+        # needed by a test
+        - examples/
       imports:
         - tango
       commands:
