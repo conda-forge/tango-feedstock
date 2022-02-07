@@ -129,7 +129,7 @@ outputs:
         - pytorch-lightning >=1.4.0,<1.5.0
         # until v1.11.0, pytorch has an undeclared dependency on setuptools,
         # see pytorch/pytorch#71280, and breaks with new versions
-        - setuptools <60
+        - setuptools <59.5
     test:
       imports:
         - tango.integrations.pytorch_lightning
@@ -155,7 +155,7 @@ outputs:
         - pytorch >=1.9.0,<1.11.0
         # until v1.11.0, pytorch has an undeclared dependency on setuptools,
         # see pytorch/pytorch#71280, and breaks with new versions
-        - setuptools <60
+        - setuptools <59.5
     test:
       imports:
         - tango.integrations.torch
