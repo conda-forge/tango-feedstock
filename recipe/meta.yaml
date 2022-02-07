@@ -13,9 +13,10 @@ source:
     # effectively, the upstream test suite can currently only be run in (their)
     # development mode, so patch it that we can properly test the package here.
     - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
-    - patches/0002-patch-test_resolve_module_name-so-that-tests-can-run.patch
     # stop build from installing setuptools & wheel from pypi
-    - patches/0003-remove-build-system-from-pyproject.toml.patch
+    - patches/0002-remove-build-system-from-pyproject.toml.patch
+    # backport allenai/tango#175 for testing out-of-tree; can be dropped for v>0.4
+    - patches/0003-make-resolve_module_name-tests-self-contained.patch
 
 build:
   number: 0
