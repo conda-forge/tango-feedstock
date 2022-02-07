@@ -38,6 +38,9 @@ outputs:
       entry_points:
         - tango=tango.__main__:main
     requirements:
+      build:
+        - setuptools <60
+        - wheel
       host:
         - python
         - pip
