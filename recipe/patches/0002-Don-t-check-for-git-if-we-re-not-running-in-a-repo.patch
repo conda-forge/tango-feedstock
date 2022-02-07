@@ -1,7 +1,7 @@
-From 20e94ec9a8f91f09df11c32e0f9b303ddebb1a6a Mon Sep 17 00:00:00 2001
+From 364f5046e9d346b0b050d6a86403812b80b6da77 Mon Sep 17 00:00:00 2001
 From: Dirk Groeneveld <dirkg@allenai.org>
 Date: Tue, 30 Nov 2021 23:47:40 -0800
-Subject: [PATCH 2/2] Don't check for git if we're not running in a repo
+Subject: [PATCH 2/3] Don't check for git if we're not running in a repo
 
 ---
  tests/executor_test.py | 11 +++++++----

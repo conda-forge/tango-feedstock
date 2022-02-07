@@ -15,6 +15,8 @@ source:
     - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
     # backport allenai/tango#99; can be dropped for v>=0.4.0
     - patches/0002-Don-t-check-for-git-if-we-re-not-running-in-a-repo.patch
+    # stop build from installing setuptools & wheel from pypi
+    - patches/0003-remove-build-system-from-pyproject.toml.patch
 
 build:
   number: 0
