@@ -1,0 +1,61 @@
+From c3975c0b10a8d56c9e6022d7d37a243440170011 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Mon, 7 Feb 2022 17:09:41 +1100
+Subject: [PATCH 2/3] patch test_resolve_module_name so that tests can run
+ out-of-tree
+
+---
+ tests/common/util_test.py | 24 +++++++++++++++++++-----
+ 1 file changed, 19 insertions(+), 5 deletions(-)
+
+diff --git a/tests/common/util_test.py b/tests/common/util_test.py
+index 8fc4638..97bcd1d 100644
+--- a/tests/common/util_test.py
++++ b/tests/common/util_test.py
+@@ -1,3 +1,4 @@
++import os
+ import time
+ from pathlib import Path
+ 
+@@ -13,20 +14,33 @@ from tango.common.util import (
+ )
+ 
+ 
++PROJECT_ROOT = (Path(__file__).parent / ".." / "..").resolve()
++# an installed package does not include the tests; since we're
++# resolving from a test module here, we'll end up somewhere else
++# than the main tango-sources; add a fall-back to look them up
++PROJECT_ROOT_FALLBACK = (
++    Path(os.environ["SP_DIR"]) if "CONDA_BUILD" in os.environ else PROJECT_ROOT
++)
++
++
+ @pytest.mark.parametrize(
+     "package_name, resolved_package_name, resolved_base_path",
+     [
+         (
+-            "tango/integrations/datasets/__init__.py",
++            PROJECT_ROOT_FALLBACK / "tango/integrations/datasets/__init__.py",
+             "tango.integrations.datasets",
+-            Path("."),
++            PROJECT_ROOT_FALLBACK,
+         ),
+         (
+-            "tango/__init__.py",
++            PROJECT_ROOT_FALLBACK / "tango/__init__.py",
+             "tango",
+-            Path("."),
++            PROJECT_ROOT_FALLBACK,
++        ),
++        (
++            PROJECT_ROOT_FALLBACK / "tango/steps/dataset_remix.py",
++            "tango.steps.dataset_remix",
++            PROJECT_ROOT_FALLBACK,
+         ),
+-        ("tango/steps/dataset_remix.py", "tango.steps.dataset_remix", Path(".")),
+         ("examples/train_gpt2/components.py", "components", Path("examples/train_gpt2/")),
+     ],
+ )
+-- 
+2.32.0.windows.2
+
