@@ -17,6 +17,8 @@ source:
     - patches/0002-make-resolve_module_name-tests-self-contained.patch
     # stop build from installing setuptools & wheel from pypi
     - patches/0003-delete-pyproject.toml.patch
+    # backport allenai/tango#177 to fix a test
+    - patches/0004-more-fixes-for-conda-forge.patch
 
 build:
   number: 0

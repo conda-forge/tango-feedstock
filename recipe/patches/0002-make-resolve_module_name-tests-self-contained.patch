@@ -1,7 +1,7 @@
 From 6bec62011fc778621860e405b74898f85f73eec5 Mon Sep 17 00:00:00 2001
 From: epwalsh <epwalsh10@gmail.com>
 Date: Mon, 7 Feb 2022 09:34:30 -0800
-Subject: [PATCH 2/3] make 'resolve_module_name()' tests self-contained
+Subject: [PATCH 2/4] make 'resolve_module_name()' tests self-contained
 
 ---
  tests/common/util_test.py | 54 +++++++++++++++++++++++----------------
