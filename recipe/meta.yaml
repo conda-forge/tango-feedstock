@@ -180,10 +180,7 @@ outputs:
         - test_fixtures/
         - tests/
       commands:
-        # tests involving torch.distributed have been problematic
-        # or a while, due to subtle differences in behaviour, and
-        # the difficulty of iterating on the packaging for pytorch
-        - pytest -v tests/integrations/torch -k "not test_train_distributed"
+        - pytest -v tests/integrations/torch
 
   - name: tango-transformers
     build:
