@@ -1,0 +1,44 @@
+From 36de109da2533efcd21ff400d17bd6943edc49ba Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Tue, 8 Feb 2022 01:37:34 +1100
+Subject: [PATCH 2/2] delete pyproject.toml
+
+---
+ pyproject.toml | 25 -------------------------
+ 1 file changed, 25 deletions(-)
+ delete mode 100644 pyproject.toml
+
+diff --git a/pyproject.toml b/pyproject.toml
+deleted file mode 100644
+index e28ffe5..0000000
+--- a/pyproject.toml
++++ /dev/null
+@@ -1,25 +0,0 @@
+-[tool.black]
+-line-length = 100
+-
+-include = '\.pyi?$'
+-
+-exclude = '''
+-(
+-      __pycache__
+-    | \.git
+-    | \.mypy_cache
+-    | \.pytest_cache
+-    | \.vscode
+-    | \.venv
+-    | \bdist\b
+-    | \bdoc\b
+-)
+-'''
+-
+-[tool.isort]
+-profile = "black"
+-multi_line_output = 3
+-
+-[build-system]
+-requires = ["setuptools", "wheel"]
+-build-backend = "setuptools.build_meta"
+-- 
+2.32.0.windows.2
+
