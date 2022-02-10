@@ -87,6 +87,7 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - {{ pin_subpackage('tango-datasets', exact=True) }}
+        - {{ pin_subpackage('tango-fairscale', exact=True) }}
         - {{ pin_subpackage('tango-pytorch_lightning', exact=True) }}
         - {{ pin_subpackage('tango-torch', exact=True) }}
         - {{ pin_subpackage('tango-transformers', exact=True) }}
@@ -123,6 +124,34 @@ outputs:
         - tests/
       commands:
         - pytest -v tests/integrations/datasets
+
+  - name: tango-fairscale
+    build:
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('tango', exact=True) }}
+        - fairscale =0.4.5
+        - numpy
+        - pytorch >=1.9.0,<1.11.0
+        # until v1.11.0, pytorch has an undeclared dependency on setuptools,
+        # see pytorch/pytorch#71280, and breaks with new versions
+        - setuptools <59.5
+    test:
+      imports:
+        - tango.integrations.fairscale
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/fairscale
 
   - name: tango-pytorch_lightning
     build:
@@ -188,6 +217,11 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - datasets >=1.12,<2
+        - numpy
+        - pytorch >=1.9.0,<1.11.0
+        # until v1.11.0, pytorch has an undeclared dependency on setuptools,
+        # see pytorch/pytorch#71280, and breaks with new versions
+        - setuptools <59.5
         - sentencepiece >=0.1.96
         - transformers >=4.12.3
     test:
