@@ -1,4 +1,4 @@
-{% set version = "0.4.0" %}
+{% set version = "0.5.0" %}
 
 package:
   name: tango-split
@@ -6,19 +6,17 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 1efdc5f0fcae3f95ce5af8def8f1c6cc9e7b766ba7dd7c416445c2b126c37fbb
+  sha256: 99632d016c6bec5222b6a3f4c374145c21d1cd3c55f8bd666c50e7c4afe9a380
   patches:
     # upstream expectes the folders /tests & /test_fixtures to be relative
     # to the finished package, even though those folders are not packaged;
     # effectively, the upstream test suite can currently only be run in (their)
     # development mode, so patch it that we can properly test the package here.
     - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
-    # backport allenai/tango#175 for testing out-of-tree; can be dropped for v>0.4
-    - patches/0002-make-resolve_module_name-tests-self-contained.patch
     # stop build from installing setuptools & wheel from pypi
-    - patches/0003-delete-pyproject.toml.patch
-    # backport allenai/tango#177 to fix a test
-    - patches/0004-more-fixes-for-conda-forge.patch
+    - patches/0002-delete-pyproject.toml.patch
+    # backport allenai/tango#192 for sqlite hang
+    - patches/0003-Close-SqliteDict-harder.patch
 
 build:
   number: 0
@@ -91,6 +89,7 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - {{ pin_subpackage('tango-datasets', exact=True) }}
+        - {{ pin_subpackage('tango-fairscale', exact=True) }}
         - {{ pin_subpackage('tango-pytorch_lightning', exact=True) }}
         - {{ pin_subpackage('tango-torch', exact=True) }}
         - {{ pin_subpackage('tango-transformers', exact=True) }}
@@ -127,6 +126,34 @@ outputs:
         - tests/
       commands:
         - pytest -v tests/integrations/datasets
+
+  - name: tango-fairscale
+    build:
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('tango', exact=True) }}
+        - fairscale =0.4.5
+        - numpy
+        - pytorch >=1.9.0,<1.11.0
+        # until v1.11.0, pytorch has an undeclared dependency on setuptools,
+        # see pytorch/pytorch#71280, and breaks with new versions
+        - setuptools <59.5
+    test:
+      imports:
+        - tango.integrations.fairscale
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/fairscale
 
   - name: tango-pytorch_lightning
     build:
@@ -192,6 +219,11 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - datasets >=1.12,<2
+        - numpy
+        - pytorch >=1.9.0,<1.11.0
+        # until v1.11.0, pytorch has an undeclared dependency on setuptools,
+        # see pytorch/pytorch#71280, and breaks with new versions
+        - setuptools <59.5
         - sentencepiece >=0.1.96
         - transformers >=4.12.3
     test:
@@ -205,9 +237,7 @@ outputs:
         - test_fixtures/
         - tests/
       commands:
-        # disable tests due to surviving sqlite daemon thread
-        # blocking successful completion of the test suite
-        # - pytest -v tests/integrations/transformers
+        - pytest -v tests/integrations/transformers
 
   - name: tango-wandb
     build:
