@@ -1,4 +1,4 @@
-{% set version = "0.5.0" %}
+{% set version = "0.6.0" %}
 
 package:
   name: tango-split
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 99632d016c6bec5222b6a3f4c374145c21d1cd3c55f8bd666c50e7c4afe9a380
+  sha256: 4553dac00d896dc05944e78cd19da23ce4b61a12f36202fc1953c302bcb014de
   patches:
     # upstream expectes the folders /tests & /test_fixtures to be relative
     # to the finished package, even though those folders are not packaged;
