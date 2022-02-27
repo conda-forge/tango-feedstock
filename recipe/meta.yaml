@@ -15,8 +15,6 @@ source:
     - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
     # stop build from installing setuptools & wheel from pypi
     - patches/0002-delete-pyproject.toml.patch
-    # backport allenai/tango#192 for sqlite hang
-    - patches/0003-Close-SqliteDict-harder.patch
 
 build:
   number: 0
