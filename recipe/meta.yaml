@@ -52,7 +52,7 @@ outputs:
         - click >=7.0,<9.0
         - click-help-colors >=0.9.1,<0.10.0
         - dill
-        - filelock >=3.4,<3.5
+        - filelock >=3.4,<3.7
         - glob2 >=0.7
         - jsonnet >=0.10.0  # [not win]
         - more-itertools >=8.0,<9.0
