@@ -1,4 +1,4 @@
-{% set version = "0.5.0" %}
+{% set version = "0.6.0" %}
 
 package:
   name: tango-split
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 99632d016c6bec5222b6a3f4c374145c21d1cd3c55f8bd666c50e7c4afe9a380
+  sha256: 4553dac00d896dc05944e78cd19da23ce4b61a12f36202fc1953c302bcb014de
   patches:
     # upstream expectes the folders /tests & /test_fixtures to be relative
     # to the finished package, even though those folders are not packaged;
@@ -15,8 +15,6 @@ source:
     - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
     # stop build from installing setuptools & wheel from pypi
     - patches/0002-delete-pyproject.toml.patch
-    # backport allenai/tango#192 for sqlite hang
-    - patches/0003-Close-SqliteDict-harder.patch
 
 build:
   number: 0
@@ -52,7 +50,7 @@ outputs:
         - click >=7.0,<9.0
         - click-help-colors >=0.9.1,<0.10.0
         - dill
-        - filelock >=3.4,<3.5
+        - filelock >=3.4,<3.7
         - glob2 >=0.7
         - jsonnet >=0.10.0  # [not win]
         - more-itertools >=8.0,<9.0
