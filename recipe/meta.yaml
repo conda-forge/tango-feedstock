@@ -74,9 +74,9 @@ outputs:
         - tango
       commands:
         - tango --help
-        # test_experiment_with_multiprocessing seems to fail
+        # test_experiment_with_logging_and_multiprocessing seems to fail
         # spuriously while trying to match exact logging output
-        - pytest tests/ --ignore=tests/integrations -v -k "not test_experiment_with_multiprocessing"
+        - pytest tests/ --ignore=tests/integrations -v -k "not test_experiment_with_logging_and_multiprocessing"
 
   - name: tango-all
     build:
