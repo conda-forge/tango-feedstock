@@ -1,18 +1,25 @@
-From d973b811c3ae2bdfd6142d774373fbad2833ba64 Mon Sep 17 00:00:00 2001
+From 2e26a0da7499f59f27c19e4f5517e25bf88489c2 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Wed, 1 Dec 2021 17:41:12 +1100
 Subject: [PATCH 1/2] patch TangoTestCase so that test-suite can be run with
  finished package
 
 ---
- tango/common/testing.py | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ tango/common/testing.py | 22 +++++++++++++++++++---
+ 1 file changed, 19 insertions(+), 3 deletions(-)
 
 diff --git a/tango/common/testing.py b/tango/common/testing.py
-index a97f048..b118ad4 100644
+index 7463eca..0bd37f2 100644
 --- a/tango/common/testing.py
 +++ b/tango/common/testing.py
-@@ -26,17 +26,23 @@ class TangoTestCase:
+@@ -1,5 +1,6 @@
+ import logging
+ import os
++import pathlib
+ import shutil
+ import tempfile
+ from contextlib import contextmanager
+@@ -26,17 +27,32 @@ class TangoTestCase:
      Root of the git repository.
      """
  
@@ -20,7 +27,16 @@ index a97f048..b118ad4 100644
 +    # to run test suite with finished package, which does not contain
 +    # tests & fixtures, we must be able to look them up somewhere else
 +    PROJECT_ROOT_FALLBACK = (
-+        Path(os.environ["SRC_DIR"]) if "SRC_DIR" in os.environ else PROJECT_ROOT
++        # users wanting to run test suite for installed package
++        pathlib.Path(os.environ["TANGO_SRC_DIR"])
++        if "TANGO_SRC_DIR" in os.environ
++        else (
++            # fallback for conda packaging
++            pathlib.Path(os.environ["SRC_DIR"])
++            if "CONDA_BUILD" in os.environ
++            # stay in-tree
++            else PROJECT_ROOT
++        )
 +    )
 +
 +    MODULE_ROOT = PROJECT_ROOT_FALLBACK / "tango"
@@ -40,5 +56,5 @@ index a97f048..b118ad4 100644
      Root of the test fixtures directory.
      """
 -- 
-2.32.0.windows.2
+2.35.3.windows.1
 

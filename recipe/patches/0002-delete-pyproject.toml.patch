@@ -1,4 +1,4 @@
-From 582682a4cba2f63151e881d5b4dbdb1b24cd991f Mon Sep 17 00:00:00 2001
+From e4766626ae49188d11d31d42a5d05e86eadd2d78 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Tue, 8 Feb 2022 01:37:34 +1100
 Subject: [PATCH 2/2] delete pyproject.toml
@@ -40,5 +40,5 @@ index e28ffe5..0000000
 -requires = ["setuptools", "wheel"]
 -build-backend = "setuptools.build_meta"
 -- 
-2.32.0.windows.2
+2.35.3.windows.1
 
