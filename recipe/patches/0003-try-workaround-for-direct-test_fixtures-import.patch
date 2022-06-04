@@ -1,14 +1,14 @@
-From 1bd34e2bbd19b2ed9be5831854b204289902cf5b Mon Sep 17 00:00:00 2001
+From ab43a1a501f42a721d8e91e345739983e34ab54d Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 4 Jun 2022 14:03:17 +0200
 Subject: [PATCH 3/3] try workaround for direct test_fixtures import
 
 ---
- tests/executors/multicore_executor_test.py | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+ tests/executors/multicore_executor_test.py | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/tests/executors/multicore_executor_test.py b/tests/executors/multicore_executor_test.py
-index 0337e71..8a6db91 100644
+index 0337e71..7e93cfd 100644
 --- a/tests/executors/multicore_executor_test.py
 +++ b/tests/executors/multicore_executor_test.py
 @@ -1,4 +1,5 @@
@@ -17,21 +17,15 @@ index 0337e71..8a6db91 100644
  
  import pytest
  
-@@ -7,10 +8,13 @@ from tango.common.testing import TangoTestCase
+@@ -7,6 +8,8 @@ from tango.common.testing import TangoTestCase
  from tango.executors.multicore_executor import MulticoreExecutor
  from tango.step_graph import StepGraph
  from tango.workspaces import LocalWorkspace
--from test_fixtures.package.steps import SleepPrintMaybeFail
- 
- 
- class TestMulticoreExecutor(TangoTestCase):
-+    # need to import through TangoTestCase fallback for testing installed package
-+    test_fixtures = SourceFileLoader("test_fixtures", self.FIXTURES_ROOT).load_module()
-+    from test_fixtures.package.steps import SleepPrintMaybeFail
 +
-     def setup_method(self):
-         super().setup_method()
-         initialize_logging()
++test_fixtures = SourceFileLoader("test_fixtures", TangoTestCase.FIXTURES_ROOT).load_module()
+ from test_fixtures.package.steps import SleepPrintMaybeFail
+ 
+ 
 -- 
 2.35.3.windows.1
 
