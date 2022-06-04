@@ -15,6 +15,8 @@ source:
     - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
     # stop build from installing setuptools & wheel from pypi
     - patches/0002-delete-pyproject.toml.patch
+    # exploratory
+    - patches/0003-try-workaround-for-direct-test_fixtures-import.patch
 
 build:
   number: 0
@@ -74,8 +76,10 @@ outputs:
         - tango
       commands:
         - tango --help
+        {% set tests_to_skip = "_not_a_real_test" %}
         # test_experiment_with_logging_and_multiprocessing seems to fail
         # spuriously while trying to match exact logging output
+        {% set tests_to_skip = tests_to_skip + " or test_experiment_with_logging_and_multiprocessing" %}
         - pytest tests/ --ignore=tests/integrations -v -k "not test_experiment_with_logging_and_multiprocessing"
 
   - name: tango-all
