@@ -1,4 +1,4 @@
-{% set version = "0.8.0" %}
+{% set version = "0.9.1" %}
 
 package:
   name: tango-split
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 0bf83631f36ddb4a63cba6e084e155a71d35a449a4d94f4bd5df793669a2502f
+  sha256: 232c46d80de43f917be123502f22c1ec2e3fb93627ee3c60d650cbc753e1c518
   patches:
     # stop build from installing setuptools & wheel from pypi
     - patches/0001-delete-pyproject.toml.patch
