@@ -1,7 +1,7 @@
 From 95db77e5333b234ac4bf1eb08b18f6cfee1cfed9 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 18 Jul 2022 22:14:39 +0200
-Subject: [PATCH 5/5] adapt import-site of moved module
+Subject: [PATCH 5/6] adapt import-site of moved module
 
 ---
  tests/end_to_end/test_multicore_cli.py          |  2 --

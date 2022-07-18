@@ -1,7 +1,7 @@
 From 43cf8bd47c2013481a559e95b1d436dbb34701be Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Tue, 8 Feb 2022 01:37:34 +1100
-Subject: [PATCH 2/5] delete pyproject.toml
+Subject: [PATCH 2/6] delete pyproject.toml
 
 ---
  pyproject.toml | 25 -------------------------

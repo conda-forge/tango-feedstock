@@ -19,6 +19,7 @@ source:
     - patches/0003-move-test_fixture.package.steps-to-tango.common.test.patch
     - patches/0004-merge-import-statements-of-former-module-with-existi.patch
     - patches/0005-adapt-import-site-of-moved-module.patch
+    - patches/0006-relax-assumptions-about-elapsed-time-for-multicore-t.patch  # [osx]
 
 build:
   number: 0

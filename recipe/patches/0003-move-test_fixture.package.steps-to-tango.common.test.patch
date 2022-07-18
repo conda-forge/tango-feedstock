@@ -1,7 +1,7 @@
 From 1ea49cc258d4c473e9b15698e9b238fb817cc7cc Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 18 Jul 2022 22:13:44 +0200
-Subject: [PATCH 3/5] move test_fixture.package.steps to tango.common.testing
+Subject: [PATCH 3/6] move test_fixture.package.steps to tango.common.testing
 
 ---
  tango/common/testing.py           | 153 ++++++++++++++++++++++++++++++

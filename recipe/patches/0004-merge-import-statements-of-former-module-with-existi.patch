@@ -1,7 +1,7 @@
 From fddfd76615e9f70edf43d3f66eb5482ae6177572 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Mon, 18 Jul 2022 22:11:55 +0200
-Subject: [PATCH 4/5] merge import statements of former module with existing
+Subject: [PATCH 4/6] merge import statements of former module with existing
 
 ---
  tango/common/testing.py | 35 ++++++++++++++++++-----------------
