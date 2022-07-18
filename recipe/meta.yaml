@@ -82,7 +82,7 @@ outputs:
         # test_experiment_with_logging_and_multiprocessing seems to fail
         # spuriously while trying to match exact logging output
         {% set tests_to_skip = tests_to_skip + " or test_experiment_with_logging_and_multiprocessing" %}
-        - pytest tests/ --ignore=tests/integrations -v -k "not test_experiment_with_logging_and_multiprocessing"
+        - pytest tests/ --ignore=tests/integrations -v -k "not ({{ tests_to_skip }})"
 
   - name: tango-all
     build:
