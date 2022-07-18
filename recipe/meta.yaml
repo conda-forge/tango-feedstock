@@ -16,7 +16,9 @@ source:
     # stop build from installing setuptools & wheel from pypi
     - patches/0002-delete-pyproject.toml.patch
     # exploratory
-    - patches/0003-try-workaround-for-direct-test_fixtures-import.patch
+    - patches/0003-move-test_fixture.package.steps-to-tango.common.test.patch
+    - patches/0004-merge-import-statements-of-former-module-with-existi.patch
+    - patches/0005-adapt-import-site-of-moved-module.patch
 
 build:
   number: 0

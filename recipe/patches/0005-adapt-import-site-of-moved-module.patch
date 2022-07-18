@@ -1,0 +1,29 @@
+From 4f7de1a9244b2dd46600c5e24e70930c5487cb84 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Mon, 18 Jul 2022 22:14:39 +0200
+Subject: [PATCH 5/5] adapt import-site of moved module
+
+---
+ tests/executors/multicore_executor_test.py | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/tests/executors/multicore_executor_test.py b/tests/executors/multicore_executor_test.py
+index 0337e71..62f7bcc 100644
+--- a/tests/executors/multicore_executor_test.py
++++ b/tests/executors/multicore_executor_test.py
+@@ -3,11 +3,10 @@ import time
+ import pytest
+ 
+ from tango.common.logging import initialize_logging
+-from tango.common.testing import TangoTestCase
++from tango.common.testing import TangoTestCase, SleepPrintMaybeFail
+ from tango.executors.multicore_executor import MulticoreExecutor
+ from tango.step_graph import StepGraph
+ from tango.workspaces import LocalWorkspace
+-from test_fixtures.package.steps import SleepPrintMaybeFail
+ 
+ 
+ class TestMulticoreExecutor(TangoTestCase):
+-- 
+2.37.0.windows.1
+
