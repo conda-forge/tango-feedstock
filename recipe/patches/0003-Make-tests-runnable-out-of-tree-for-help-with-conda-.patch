@@ -1,4 +1,4 @@
-From f595a026eb4b1031c49272e2d192789f747a55bf Mon Sep 17 00:00:00 2001
+From 8ded5533cb36f8571cfb1e88394ae307c7a2ebf1 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 23 Jul 2022 01:35:53 +0200
 Subject: [PATCH 3/3] Make tests runnable out-of-tree for help with
@@ -41,10 +41,11 @@ Co-authored-by: epwalsh <epwalsh10@gmail.com>
  .../end_to_end/test_uncacheable_leaf_steps.py |  3 +--
  tests/executor_test.py                        |  2 +-
  tests/executors/multicore_executor_test.py    |  8 +------
+ tests/integrations/wandb/workspace_test.py    |  2 +-
  tests/main_test.py                            | 14 -----------
  tests/step_graph_test.py                      |  4 ++--
  tests/step_test.py                            |  1 -
- 11 files changed, 27 insertions(+), 36 deletions(-)
+ 12 files changed, 28 insertions(+), 37 deletions(-)
  rename tango/common/{testing.py => testing/__init__.py} (84%)
  rename {test_fixtures/package => tango/common/testing}/steps.py (100%)
  delete mode 100644 test_fixtures/package/__init__.py
@@ -53,7 +54,7 @@ diff --git a/tango/common/testing.py b/tango/common/testing/__init__.py
 similarity index 84%
 rename from tango/common/testing.py
 rename to tango/common/testing/__init__.py
-index 7463eca..faa3cad 100644
+index 314a627..a4aafcb 100644
 --- a/tango/common/testing.py
 +++ b/tango/common/testing/__init__.py
 @@ -21,22 +21,37 @@ class TangoTestCase:
@@ -251,6 +252,21 @@ index b7e6b72..926e911 100644
          )
  
          executor.execute_step_graph(step_graph)
+diff --git a/tests/integrations/wandb/workspace_test.py b/tests/integrations/wandb/workspace_test.py
+index 23ae8b9..930895c 100644
+--- a/tests/integrations/wandb/workspace_test.py
++++ b/tests/integrations/wandb/workspace_test.py
+@@ -12,9 +12,9 @@ from tango import Step, StepGraph, Workspace
+ from tango.common import Params, util
+ from tango.common.logging import initialize_logging, teardown_logging
+ from tango.common.testing import TangoTestCase
++from tango.common.testing.steps import *  # noqa: F403,F401
+ from tango.integrations.wandb import WandbWorkspace
+ from tango.step_info import StepState
+-from test_fixtures.package.steps import *  # noqa: F403,F401
+ 
+ WANDB_ENTITY = os.environ.get("WANDB_ENTITY", "allennlp")
+ WANDB_PROJECT = "tango-workspace-testing"
 diff --git a/tests/main_test.py b/tests/main_test.py
 index 6fa8f70..a49afb0 100644
 --- a/tests/main_test.py
