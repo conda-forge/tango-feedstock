@@ -1,4 +1,4 @@
-From 8ded5533cb36f8571cfb1e88394ae307c7a2ebf1 Mon Sep 17 00:00:00 2001
+From a9f6445941088d8e979ab306858e440a16a40010 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Sat, 23 Jul 2022 01:35:53 +0200
 Subject: [PATCH 3/3] Make tests runnable out-of-tree for help with
@@ -41,11 +41,13 @@ Co-authored-by: epwalsh <epwalsh10@gmail.com>
  .../end_to_end/test_uncacheable_leaf_steps.py |  3 +--
  tests/executor_test.py                        |  2 +-
  tests/executors/multicore_executor_test.py    |  8 +------
+ tests/integrations/beaker/step_cache_test.py  |  2 +-
+ tests/integrations/beaker/workspace_test.py   |  2 +-
  tests/integrations/wandb/workspace_test.py    |  2 +-
  tests/main_test.py                            | 14 -----------
  tests/step_graph_test.py                      |  4 ++--
  tests/step_test.py                            |  1 -
- 12 files changed, 28 insertions(+), 37 deletions(-)
+ 14 files changed, 30 insertions(+), 39 deletions(-)
  rename tango/common/{testing.py => testing/__init__.py} (84%)
  rename {test_fixtures/package => tango/common/testing}/steps.py (100%)
  delete mode 100644 test_fixtures/package/__init__.py
@@ -252,6 +254,30 @@ index b7e6b72..926e911 100644
          )
  
          executor.execute_step_graph(step_graph)
+diff --git a/tests/integrations/beaker/step_cache_test.py b/tests/integrations/beaker/step_cache_test.py
+index 49e615f..63e9d06 100644
+--- a/tests/integrations/beaker/step_cache_test.py
++++ b/tests/integrations/beaker/step_cache_test.py
+@@ -1,5 +1,5 @@
++from tango.common.testing.steps import FloatStep
+ from tango.integrations.beaker.step_cache import BeakerStepCache
+-from test_fixtures.package.steps import FloatStep
+ 
+ 
+ def test_step_cache(beaker_workspace: str):
+diff --git a/tests/integrations/beaker/workspace_test.py b/tests/integrations/beaker/workspace_test.py
+index 163e3bf..4c68bce 100644
+--- a/tests/integrations/beaker/workspace_test.py
++++ b/tests/integrations/beaker/workspace_test.py
+@@ -1,7 +1,7 @@
++from tango.common.testing.steps import FloatStep
+ from tango.integrations.beaker.workspace import BeakerWorkspace
+ from tango.step_info import StepState
+ from tango.workspace import Workspace
+-from test_fixtures.package.steps import FloatStep
+ 
+ 
+ def test_from_url(beaker_workspace: str):
 diff --git a/tests/integrations/wandb/workspace_test.py b/tests/integrations/wandb/workspace_test.py
 index 23ae8b9..930895c 100644
 --- a/tests/integrations/wandb/workspace_test.py
