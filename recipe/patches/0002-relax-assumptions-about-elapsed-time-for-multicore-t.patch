@@ -1,0 +1,34 @@
+From 1bbd1e91052247b2659f4728de8b39a9d0fe5961 Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Tue, 19 Jul 2022 00:11:18 +0200
+Subject: [PATCH 2/3] relax assumptions about elapsed time for multicore tests
+
+---
+ tests/executors/multicore_executor_test.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/executors/multicore_executor_test.py b/tests/executors/multicore_executor_test.py
+index 0337e71..b7e6b72 100644
+--- a/tests/executors/multicore_executor_test.py
++++ b/tests/executors/multicore_executor_test.py
+@@ -29,7 +29,7 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor.execute_step_graph(step_graph)
+         end_time = time.time()
+         time_taken = end_time - start_time
+-        assert time_taken < 10  # TODO: will this be flaky?
++        assert time_taken < 30  # TODO: will this be flaky?
+ 
+         assert len(executor.workspace.step_cache) == 2
+ 
+@@ -47,7 +47,7 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor.execute_step_graph(step_graph)
+         end_time = time.time()
+         time_taken = end_time - start_time
+-        assert 10 < time_taken < 20  # TODO: will this be flaky?
++        assert 10 < time_taken < 60  # TODO: will this be flaky?
+ 
+         assert len(executor.workspace.step_cache) == 3
+ 
+-- 
+2.37.0.windows.1
+

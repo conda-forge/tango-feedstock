@@ -1,0 +1,354 @@
+From f595a026eb4b1031c49272e2d192789f747a55bf Mon Sep 17 00:00:00 2001
+From: "H. Vetinari" <h.vetinari@gmx.com>
+Date: Sat, 23 Jul 2022 01:35:53 +0200
+Subject: [PATCH 3/3] Make tests runnable out-of-tree for help with
+ conda-packaging (#307)
+
+* patch TangoTestCase so that test-suite can be run with finished package
+
+* move test_fixture.package.steps to tango.common.testing
+
+* merge import statements of former module with existing
+
+* adapt import-site of moved module
+
+* split the files as requested in review
+
+* adapt imports to new location
+
+* add note in CHANGELOG.md
+
+* stray space
+
+* restore previous imports after splitting files
+
+* last oversight...?
+
+* Fix import
+
+* Fix PROJECT_ROOT
+
+* Fix changelog
+
+Co-authored-by: Dirk Groeneveld <dirkg@allenai.org>
+Co-authored-by: epwalsh <epwalsh10@gmail.com>
+---
+ .../{testing.py => testing/__init__.py}       | 23 +++++++++++++++----
+ .../package => tango/common/testing}/steps.py |  0
+ test_fixtures/package/__init__.py             |  0
+ tests/end_to_end/test_multicore_cli.py        |  2 --
+ tests/end_to_end/test_run_single_step.py      |  6 ++---
+ .../end_to_end/test_uncacheable_leaf_steps.py |  3 +--
+ tests/executor_test.py                        |  2 +-
+ tests/executors/multicore_executor_test.py    |  8 +------
+ tests/main_test.py                            | 14 -----------
+ tests/step_graph_test.py                      |  4 ++--
+ tests/step_test.py                            |  1 -
+ 11 files changed, 27 insertions(+), 36 deletions(-)
+ rename tango/common/{testing.py => testing/__init__.py} (84%)
+ rename {test_fixtures/package => tango/common/testing}/steps.py (100%)
+ delete mode 100644 test_fixtures/package/__init__.py
+
+diff --git a/tango/common/testing.py b/tango/common/testing/__init__.py
+similarity index 84%
+rename from tango/common/testing.py
+rename to tango/common/testing/__init__.py
+index 7463eca..faa3cad 100644
+--- a/tango/common/testing.py
++++ b/tango/common/testing/__init__.py
+@@ -21,22 +21,37 @@ class TangoTestCase:
+ 
+     """
+ 
+-    PROJECT_ROOT = (Path(__file__).parent / ".." / "..").resolve()
++    PROJECT_ROOT = (Path(__file__).parent / ".." / ".." / "..").resolve()
+     """
+     Root of the git repository.
+     """
+ 
+-    MODULE_ROOT = PROJECT_ROOT / "tango"
++    # to run test suite with finished package, which does not contain
++    # tests & fixtures, we must be able to look them up somewhere else
++    PROJECT_ROOT_FALLBACK = (
++        # users wanting to run test suite for installed package
++        Path(os.environ["TANGO_SRC_DIR"])
++        if "TANGO_SRC_DIR" in os.environ
++        else (
++            # fallback for conda packaging
++            Path(os.environ["SRC_DIR"])
++            if "CONDA_BUILD" in os.environ
++            # stay in-tree
++            else PROJECT_ROOT
++        )
++    )
++
++    MODULE_ROOT = PROJECT_ROOT_FALLBACK / "tango"
+     """
+     Root of the tango module.
+     """
+ 
+-    TESTS_ROOT = PROJECT_ROOT / "tests"
++    TESTS_ROOT = PROJECT_ROOT_FALLBACK / "tests"
+     """
+     Root of the tests directory.
+     """
+ 
+-    FIXTURES_ROOT = PROJECT_ROOT / "test_fixtures"
++    FIXTURES_ROOT = PROJECT_ROOT_FALLBACK / "test_fixtures"
+     """
+     Root of the test fixtures directory.
+     """
+diff --git a/test_fixtures/package/steps.py b/tango/common/testing/steps.py
+similarity index 100%
+rename from test_fixtures/package/steps.py
+rename to tango/common/testing/steps.py
+diff --git a/test_fixtures/package/__init__.py b/test_fixtures/package/__init__.py
+deleted file mode 100644
+index e69de29..0000000
+diff --git a/tests/end_to_end/test_multicore_cli.py b/tests/end_to_end/test_multicore_cli.py
+index 49122af..e211f5d 100644
+--- a/tests/end_to_end/test_multicore_cli.py
++++ b/tests/end_to_end/test_multicore_cli.py
+@@ -40,7 +40,6 @@ class TestExperiment(TangoTestCase):
+         with pytest.raises(CliRunError):
+             self.run(
+                 self.config,
+-                include_package=["test_fixtures.package.steps"],
+                 multicore=True,
+                 parallelism=2,
+             )
+@@ -56,7 +55,6 @@ class TestExperiment(TangoTestCase):
+ 
+         self.run(
+             self.config,
+-            include_package=["test_fixtures.package.steps"],
+             multicore=True,
+             parallelism=2,
+             overrides=json.dumps({"steps.step1.fail": False}),
+diff --git a/tests/end_to_end/test_run_single_step.py b/tests/end_to_end/test_run_single_step.py
+index c8a1bf6..64e4c44 100644
+--- a/tests/end_to_end/test_run_single_step.py
++++ b/tests/end_to_end/test_run_single_step.py
+@@ -18,16 +18,16 @@ class TestRunSingleStep(TangoTestCase):
+         num_other_files = 2  # out.log and stepinfo.json
+ 
+         # Regular run contains all step outputs.
+-        self.run(config, include_package=["test_fixtures.package.steps"])
++        self.run(config)
+         latest_outputs = self.TEST_DIR / "workspace" / "latest"
+         assert len(list(latest_outputs.iterdir())) == num_other_files + 3
+ 
+         # Running a single step with no dependencies should have a single output.
+-        self.run(config, step_name="strB", include_package=["test_fixtures.package.steps"])
++        self.run(config, step_name="strB")
+         latest_outputs = self.TEST_DIR / "workspace" / "latest"
+         assert len(list(latest_outputs.iterdir())) == num_other_files + 1
+ 
+         # Running a single step with one or more dependencies will also run the step's dependencies.
+-        self.run(config, step_name="concatenated", include_package=["test_fixtures.package.steps"])
++        self.run(config, step_name="concatenated")
+         latest_outputs = self.TEST_DIR / "workspace" / "latest"
+         assert len(list(latest_outputs.iterdir())) == num_other_files + 3
+diff --git a/tests/end_to_end/test_uncacheable_leaf_steps.py b/tests/end_to_end/test_uncacheable_leaf_steps.py
+index 04712e4..c5b6103 100644
+--- a/tests/end_to_end/test_uncacheable_leaf_steps.py
++++ b/tests/end_to_end/test_uncacheable_leaf_steps.py
+@@ -1,6 +1,6 @@
+ from tango import Step
+ from tango.common.testing import TangoTestCase, run_experiment
+-from test_fixtures.package.steps import MakeNumber  # noqa:F401
++from tango.common.testing.steps import MakeNumber  # noqa:F401
+ 
+ stored_number = None
+ 
+@@ -55,7 +55,6 @@ class TestExperimentMulticore(TangoTestCase):
+                 }
+             },
+             multicore=True,
+-            include_package=["test_fixtures.package.steps"],
+         ):
+             with open(file_name) as file_ref:
+                 number = file_ref.read()
+diff --git a/tests/executor_test.py b/tests/executor_test.py
+index cc36b00..0c556fc 100644
+--- a/tests/executor_test.py
++++ b/tests/executor_test.py
+@@ -2,12 +2,12 @@ from pathlib import Path
+ 
+ from tango.common.params import Params
+ from tango.common.testing import TangoTestCase
++from tango.common.testing.steps import SleepPrintMaybeFail  # noqa:F401
+ from tango.executor import Executor
+ from tango.step import Step
+ from tango.step_graph import StepGraph
+ from tango.workspace import StepExecutionMetadata
+ from tango.workspaces import LocalWorkspace
+-from test_fixtures.package.steps import SleepPrintMaybeFail  # noqa:F401
+ 
+ 
+ @Step.register("sum_numbers")
+diff --git a/tests/executors/multicore_executor_test.py b/tests/executors/multicore_executor_test.py
+index b7e6b72..926e911 100644
+--- a/tests/executors/multicore_executor_test.py
++++ b/tests/executors/multicore_executor_test.py
+@@ -4,10 +4,10 @@ import pytest
+ 
+ from tango.common.logging import initialize_logging
+ from tango.common.testing import TangoTestCase
++from tango.common.testing.steps import SleepPrintMaybeFail
+ from tango.executors.multicore_executor import MulticoreExecutor
+ from tango.step_graph import StepGraph
+ from tango.workspaces import LocalWorkspace
+-from test_fixtures.package.steps import SleepPrintMaybeFail
+ 
+ 
+ class TestMulticoreExecutor(TangoTestCase):
+@@ -79,7 +79,6 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor = MulticoreExecutor(
+             workspace=LocalWorkspace(self.TEST_DIR),
+             parallelism=parallelism,
+-            include_package=["test_fixtures.package.steps"],
+         )
+ 
+         executor.execute_step_graph(step_graph)
+@@ -113,7 +112,6 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor = MulticoreExecutor(
+             workspace=LocalWorkspace(self.TEST_DIR),
+             parallelism=parallelism,
+-            include_package=["test_fixtures.package.steps"],
+         )
+ 
+         executor.execute_step_graph(step_graph)
+@@ -147,7 +145,6 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor = MulticoreExecutor(
+             workspace=LocalWorkspace(self.TEST_DIR),
+             parallelism=parallelism,
+-            include_package=["test_fixtures.package.steps"],
+         )
+ 
+         executor.execute_step_graph(step_graph)
+@@ -181,7 +178,6 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor = MulticoreExecutor(
+             workspace=LocalWorkspace(self.TEST_DIR),
+             parallelism=2,
+-            include_package=["test_fixtures.package.steps"],
+         )
+ 
+         executor.execute_step_graph(step_graph)
+@@ -215,7 +211,6 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor = MulticoreExecutor(
+             workspace=LocalWorkspace(self.TEST_DIR),
+             parallelism=2,
+-            include_package=["test_fixtures.package.steps"],
+         )
+ 
+         executor.execute_step_graph(step_graph)
+@@ -234,7 +229,6 @@ class TestMulticoreExecutor(TangoTestCase):
+         executor = MulticoreExecutor(
+             workspace=LocalWorkspace(self.TEST_DIR),
+             parallelism=parallelism,
+-            include_package=["test_fixtures.package.steps"],
+         )
+ 
+         executor.execute_step_graph(step_graph)
+diff --git a/tests/main_test.py b/tests/main_test.py
+index 6fa8f70..a49afb0 100644
+--- a/tests/main_test.py
++++ b/tests/main_test.py
+@@ -73,8 +73,6 @@ class TestRun(TangoTestCase):
+             log_level,
+             "run",
+             str(self.FIXTURES_ROOT / "experiment" / "noisy.jsonnet"),
+-            "-i",
+-            "test_fixtures.package",
+             "-w",
+             str(self.TEST_DIR),
+             "-o",
+@@ -123,8 +121,6 @@ class TestRun(TangoTestCase):
+             "tango",
+             "run",
+             str(self.FIXTURES_ROOT / "experiment" / "hello_world.jsonnet"),
+-            "-i",
+-            "test_fixtures.package",
+             "-w",
+             str(self.TEST_DIR),
+         ]
+@@ -171,8 +167,6 @@ class TestRun(TangoTestCase):
+             "tango",
+             "run",
+             str(self.FIXTURES_ROOT / "experiment" / "hello_world.jsonnet"),
+-            "-i",
+-            "test_fixtures.package",
+             "-w",
+             "memory://",
+         ]
+@@ -184,8 +178,6 @@ class TestRun(TangoTestCase):
+             "tango",
+             "run",
+             str(self.FIXTURES_ROOT / "experiment" / "hello_world.jsonnet"),
+-            "-i",
+-            "test_fixtures.package",
+         ]
+         result = subprocess.run(cmd, capture_output=True)
+         assert result.returncode == 0
+@@ -195,8 +187,6 @@ class TestRun(TangoTestCase):
+             "tango",
+             "run",
+             str(self.FIXTURES_ROOT / "experiment" / "random.jsonnet"),
+-            "-i",
+-            "test_fixtures.package",
+             "-w",
+             str(self.TEST_DIR),
+         ]
+@@ -209,8 +199,6 @@ class TestRun(TangoTestCase):
+             "tango",
+             "run",
+             str(self.FIXTURES_ROOT / "experiment" / "hello_world.jsonnet"),
+-            "-i",
+-            "test_fixtures.package",
+             "-w",
+             str(self.TEST_DIR),
+             "--name",
+@@ -240,8 +228,6 @@ class TestRun(TangoTestCase):
+             + [
+                 "run",
+                 str(self.FIXTURES_ROOT / "experiment" / "logging_check.jsonnet"),
+-                "-i",
+-                "test_fixtures.package",
+                 "-w",
+                 str(self.TEST_DIR),
+                 "-j",
+diff --git a/tests/step_graph_test.py b/tests/step_graph_test.py
+index 3a426f2..a5d5c39 100644
+--- a/tests/step_graph_test.py
++++ b/tests/step_graph_test.py
+@@ -5,12 +5,12 @@ import pytest
+ 
+ from tango.common.exceptions import ConfigurationError
+ from tango.common.testing import TangoTestCase
+-from tango.step_graph import StepGraph
+-from test_fixtures.package.steps import (  # noqa: F401
++from tango.common.testing.steps import (  # noqa: F401
+     AddNumbersStep,
+     ConcatStringsStep,
+     StringStep,
+ )
++from tango.step_graph import StepGraph
+ 
+ 
+ class TestStepGraph(TangoTestCase):
+diff --git a/tests/step_test.py b/tests/step_test.py
+index c8ebd47..0418d97 100644
+--- a/tests/step_test.py
++++ b/tests/step_test.py
+@@ -3,7 +3,6 @@ from typing import Any, Dict, Mapping, MutableMapping
+ 
+ import pytest
+ 
+-import test_fixtures.package.steps  # noqa: F401
+ from tango import StepGraph
+ from tango.common import Params, Registrable
+ from tango.common.from_params import FromParams
+-- 
+2.37.0.windows.1
+
