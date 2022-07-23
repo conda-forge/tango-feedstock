@@ -49,7 +49,7 @@ outputs:
         - click >=7.0,<8.1.4
         - click-help-colors >=0.9.1,<0.10.0
         - dill
-        - filelock >=3.4,<3.7
+        - filelock >=3.4,<3.8
         - glob2 >=0.7
         - jsonnet >=0.10.0  # [not win]
         - more-itertools >=8.0,<9.0
@@ -57,7 +57,7 @@ outputs:
         - python-xxhash
         - pytz
         - pyyaml >=5.4.1,<6.1
-        - rich >=11.0,<13.0
+        - rich >=12.3,<13.0
         - sqlitedict
         - tqdm >=4.62,<4.65
     test:
@@ -91,6 +91,7 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
+        - {{ pin_subpackage('tango-beaker', exact=True) }}
         - {{ pin_subpackage('tango-datasets', exact=True) }}
         - {{ pin_subpackage('tango-fairscale', exact=True) }}
         - {{ pin_subpackage('tango-pytorch_lightning', exact=True) }}
@@ -106,6 +107,29 @@ outputs:
       commnds:
         # run only once for all subpackages
         - pip check
+
+  - name: tango-beaker
+    build:
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('tango', exact=True) }}
+        - beaker-py >=1.3,<2
+    test:
+      imports:
+        - tango.integrations.beaker
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/beaker
 
   - name: tango-datasets
     build:
