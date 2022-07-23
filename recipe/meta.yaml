@@ -243,6 +243,15 @@ outputs:
     test:
       imports:
         - tango.integrations.wandb
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/wandb
 
 about:
   home: https://github.com/allenai/tango
