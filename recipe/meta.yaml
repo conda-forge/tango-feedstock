@@ -8,18 +8,12 @@ source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
   sha256: e0cf9424ea2f00cc8169bb034f6b3e5412997013a2c00d9834a9dc789ed9ffaf
   patches:
-    # upstream expectes the folders /tests & /test_fixtures to be relative
-    # to the finished package, even though those folders are not packaged;
-    # effectively, the upstream test suite can currently only be run in (their)
-    # development mode, so patch it that we can properly test the package here.
-    - patches/0001-patch-TangoTestCase-so-that-test-suite-can-be-run-wi.patch
     # stop build from installing setuptools & wheel from pypi
-    - patches/0002-delete-pyproject.toml.patch
-    # exploratory
-    - patches/0003-move-test_fixture.package.steps-to-tango.common.test.patch
-    - patches/0004-merge-import-statements-of-former-module-with-existi.patch
-    - patches/0005-adapt-import-site-of-moved-module.patch
-    - patches/0006-relax-assumptions-about-elapsed-time-for-multicore-t.patch  # [osx]
+    - patches/0001-delete-pyproject.toml.patch
+    # fix a test that's too strict for our infra
+    - patches/0002-relax-assumptions-about-elapsed-time-for-multicore-t.patch
+    # backport allenai/tango#307 to make test suite runnable out-of-tree
+    - patches/0003-Make-tests-runnable-out-of-tree-for-help-with-conda-.patch
 
 build:
   number: 0
