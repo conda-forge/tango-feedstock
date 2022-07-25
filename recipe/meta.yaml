@@ -252,7 +252,8 @@ outputs:
         - test_fixtures/
         - tests/
       commands:
-        - pytest -v tests/integrations/wandb
+        # all the tests in workspace_test.py need an API token we don't have
+        - pytest -v tests/integrations/wandb -k "not workspace_test"
 
 about:
   home: https://github.com/allenai/tango
