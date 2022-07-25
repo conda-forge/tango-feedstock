@@ -1,4 +1,4 @@
-{% set version = "0.7.0" %}
+{% set version = "0.8.0" %}
 
 package:
   name: tango-split
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: e0cf9424ea2f00cc8169bb034f6b3e5412997013a2c00d9834a9dc789ed9ffaf
+  sha256: 0bf83631f36ddb4a63cba6e084e155a71d35a449a4d94f4bd5df793669a2502f
   patches:
     # stop build from installing setuptools & wheel from pypi
     - patches/0001-delete-pyproject.toml.patch
@@ -46,7 +46,7 @@ outputs:
         - python
         - base58
         - cached_path >=1.0,<1.2
-        - click >=7.0,<8.1.3
+        - click >=7.0,<8.1.4
         - click-help-colors >=0.9.1,<0.10.0
         - dill
         - filelock >=3.4,<3.7
@@ -55,6 +55,7 @@ outputs:
         - more-itertools >=8.0,<9.0
         - petname >=2.6,<3.0
         - python-xxhash
+        - pytz
         - pyyaml >=5.4.1,<6.1
         - rich >=11.0,<13.0
         - sqlitedict
@@ -238,10 +239,21 @@ outputs:
       run:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
+        - pytorch >=1.9.0,<1.12.0
         - wandb >=0.12,<0.13
     test:
       imports:
         - tango.integrations.wandb
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        # all the tests in workspace_test.py need an API token we don't have
+        - pytest -v tests/integrations/wandb -k "not (workspace_test or test_step_cache_artifact_not_found)"
 
 about:
   home: https://github.com/allenai/tango
