@@ -253,7 +253,7 @@ outputs:
         - tests/
       commands:
         # all the tests in workspace_test.py need an API token we don't have
-        - pytest -v tests/integrations/wandb -k "not workspace_test"
+        - pytest -v tests/integrations/wandb -k "not (workspace_test or test_step_cache_artifact_not_found)"
 
 about:
   home: https://github.com/allenai/tango
