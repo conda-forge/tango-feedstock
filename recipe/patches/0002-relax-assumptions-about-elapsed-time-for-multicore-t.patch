@@ -1,4 +1,4 @@
-From 1a95c62d6b9aba7268a0c6549406c1c23d59fb0a Mon Sep 17 00:00:00 2001
+From 64ac4313b89f169a944bbff06c220cda3cf3f236 Mon Sep 17 00:00:00 2001
 From: "H. Vetinari" <h.vetinari@gmx.com>
 Date: Tue, 19 Jul 2022 00:11:18 +0200
 Subject: [PATCH 2/3] relax assumptions about elapsed time for multicore tests
