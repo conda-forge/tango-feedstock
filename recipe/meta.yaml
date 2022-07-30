@@ -1,4 +1,4 @@
-{% set version = "0.10.0" %}
+{% set version = "0.10.1" %}
 
 package:
   name: tango-split
@@ -6,14 +6,10 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: 15ece81812f1eb0eb00aaac194f66cbede9b5f142e8e7c7cc55941c6905e956c
+  sha256: dbc2a81bb818a159b9d688f2dc4a01b8fd572e8f42f0d3fb54fe46aef9970481
   patches:
-    # stop build from installing setuptools & wheel from pypi
-    - patches/0001-delete-pyproject.toml.patch
     # fix a test that's too strict for our infra
-    - patches/0002-relax-assumptions-about-elapsed-time-for-multicore-t.patch
-    # backport allenai/tango#307 to make test suite runnable out-of-tree
-    - patches/0003-Make-tests-runnable-out-of-tree-for-help-with-conda-.patch
+    - patches/0001-relax-assumptions-about-elapsed-time-for-multicore-t.patch
 
 build:
   number: 0
