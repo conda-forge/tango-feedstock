@@ -193,6 +193,7 @@ outputs:
         - jax >=0.3.13
         - optax >=0.1.2
         - tensorflow >=2.9.1
+        - transformers >=4.12.3
     test:
       imports:
         - tango.integrations.flax
