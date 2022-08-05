@@ -91,6 +91,7 @@ outputs:
         - {{ pin_subpackage('tango-beaker', exact=True) }}
         - {{ pin_subpackage('tango-datasets', exact=True) }}
         - {{ pin_subpackage('tango-fairscale', exact=True) }}
+        - {{ pin_subpackage('tango-flax', exact=True) }}
         - {{ pin_subpackage('tango-pytorch_lightning', exact=True) }}
         - {{ pin_subpackage('tango-torch', exact=True) }}
         - {{ pin_subpackage('tango-transformers', exact=True) }}
@@ -179,6 +180,32 @@ outputs:
       commands:
         - pytest -v tests/integrations/fairscale
 
+  - name: tango-flax
+    build:
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('tango', exact=True) }}
+        - flax >=0.5
+        - jax >=0.3.13
+        - optax >=0.1.2
+        - tensorflow >=2.9.1
+    test:
+      imports:
+        - tango.integrations.flax
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/flax
+
   - name: tango-pytorch_lightning
     build:
       skip: true  # [win]
@@ -237,6 +264,7 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - datasets >=1.12,<3
+        - flax >=0.5
         - numpy
         - pytorch >=1.9,<1.13
         - sentencepiece >=0.1.96
