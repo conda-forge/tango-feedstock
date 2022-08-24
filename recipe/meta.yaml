@@ -205,7 +205,8 @@ outputs:
         - test_fixtures/
         - tests/
       commands:
-        - pytest -v tests/integrations/flax
+        # temporarily disable tests on linux
+        - pytest -v tests/integrations/flax  # [osx]
 
   - name: tango-pytorch_lightning
     build:
