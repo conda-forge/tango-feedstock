@@ -1,4 +1,5 @@
-{% set version = "0.10.1" %}
+{% set tests_to_skip = "_not_a_real_test" %}
+{% set version = "0.12.0" %}
 
 package:
   name: tango-split
@@ -6,7 +7,7 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: dbc2a81bb818a159b9d688f2dc4a01b8fd572e8f42f0d3fb54fe46aef9970481
+  sha256: 23906ba37d9bbeb0f01d921472df523496962c663f5dd7ba9412e8fd9e42f077
   patches:
     # fix a test that's too strict for our infra
     - patches/0001-relax-assumptions-about-elapsed-time-for-multicore-t.patch
