@@ -113,6 +113,7 @@ Current release info
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango-green.svg)](https://anaconda.org/conda-forge/tango) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango.svg)](https://anaconda.org/conda-forge/tango) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango.svg)](https://anaconda.org/conda-forge/tango) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango.svg)](https://anaconda.org/conda-forge/tango) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--all-green.svg)](https://anaconda.org/conda-forge/tango-all) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-all.svg)](https://anaconda.org/conda-forge/tango-all) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-all.svg)](https://anaconda.org/conda-forge/tango-all) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-all.svg)](https://anaconda.org/conda-forge/tango-all) |
+| [![Conda Recipe](https://img.shields.io/badge/recipe-tango--beaker-green.svg)](https://anaconda.org/conda-forge/tango-beaker) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-beaker.svg)](https://anaconda.org/conda-forge/tango-beaker) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-beaker.svg)](https://anaconda.org/conda-forge/tango-beaker) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-beaker.svg)](https://anaconda.org/conda-forge/tango-beaker) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--datasets-green.svg)](https://anaconda.org/conda-forge/tango-datasets) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-datasets.svg)](https://anaconda.org/conda-forge/tango-datasets) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-datasets.svg)](https://anaconda.org/conda-forge/tango-datasets) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-datasets.svg)](https://anaconda.org/conda-forge/tango-datasets) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--fairscale-green.svg)](https://anaconda.org/conda-forge/tango-fairscale) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-fairscale.svg)](https://anaconda.org/conda-forge/tango-fairscale) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-fairscale.svg)](https://anaconda.org/conda-forge/tango-fairscale) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-fairscale.svg)](https://anaconda.org/conda-forge/tango-fairscale) |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-tango--pytorch_lightning-green.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/tango-pytorch_lightning.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/tango-pytorch_lightning.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/tango-pytorch_lightning.svg)](https://anaconda.org/conda-forge/tango-pytorch_lightning) |
@@ -130,16 +131,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `tango, tango-all, tango-datasets, tango-fairscale, tango-pytorch_lightning, tango-torch, tango-transformers, tango-wandb` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `tango, tango-all, tango-beaker, tango-datasets, tango-fairscale, tango-pytorch_lightning, tango-torch, tango-transformers, tango-wandb` can be installed with `conda`:
 
 ```
-conda install tango tango-all tango-datasets tango-fairscale tango-pytorch_lightning tango-torch tango-transformers tango-wandb
+conda install tango tango-all tango-beaker tango-datasets tango-fairscale tango-pytorch_lightning tango-torch tango-transformers tango-wandb
 ```
 
 or with `mamba`:
 
 ```
-mamba install tango tango-all tango-datasets tango-fairscale tango-pytorch_lightning tango-torch tango-transformers tango-wandb
+mamba install tango tango-all tango-beaker tango-datasets tango-fairscale tango-pytorch_lightning tango-torch tango-transformers tango-wandb
 ```
 
 It is possible to list all of the versions of `tango` available on your platform with `conda`:
