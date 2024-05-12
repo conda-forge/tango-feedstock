@@ -1,4 +1,5 @@
-{% set version = "0.10.1" %}
+{% set tests_to_skip = "_not_a_real_test" %}
+{% set version = "0.11.0" %}
 
 package:
   name: tango-split
@@ -6,7 +7,7 @@ package:
 
 source:
   url: https://github.com/allenai/tango/archive/refs/tags/v{{ version }}.tar.gz
-  sha256: dbc2a81bb818a159b9d688f2dc4a01b8fd572e8f42f0d3fb54fe46aef9970481
+  sha256: b53a15e1bfbe6314061089e4f1e4d8ba942de3ad7fcd1db30b561c24882618cf
   patches:
     # fix a test that's too strict for our infra
     - patches/0001-relax-assumptions-about-elapsed-time-for-multicore-t.patch
@@ -90,6 +91,7 @@ outputs:
         - {{ pin_subpackage('tango-beaker', exact=True) }}
         - {{ pin_subpackage('tango-datasets', exact=True) }}
         - {{ pin_subpackage('tango-fairscale', exact=True) }}
+        - {{ pin_subpackage('tango-flax', exact=True) }}
         - {{ pin_subpackage('tango-pytorch_lightning', exact=True) }}
         - {{ pin_subpackage('tango-torch', exact=True) }}
         - {{ pin_subpackage('tango-transformers', exact=True) }}
@@ -178,6 +180,33 @@ outputs:
       commands:
         - pytest -v tests/integrations/fairscale
 
+  - name: tango-flax
+    build:
+      skip: true  # [win]
+    requirements:
+      host:
+        - python
+      run:
+        - python
+        - {{ pin_subpackage('tango', exact=True) }}
+        - flax >=0.5
+        - jax >=0.3.13
+        - optax >=0.1.2
+        - tensorflow >=2.9.1
+        - transformers >=4.12.3
+    test:
+      imports:
+        - tango.integrations.flax
+      requires:
+        - pytest
+        - flaky
+        - git
+      source_files:
+        - test_fixtures/
+        - tests/
+      commands:
+        - pytest -v tests/integrations/flax
+
   - name: tango-pytorch_lightning
     build:
       skip: true  # [win]
@@ -236,6 +265,7 @@ outputs:
         - python
         - {{ pin_subpackage('tango', exact=True) }}
         - datasets >=1.12,<3
+        - flax >=0.5
         - numpy
         - pytorch >=1.9,<1.13
         - sentencepiece >=0.1.96
